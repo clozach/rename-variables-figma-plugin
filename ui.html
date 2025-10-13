@@ -500,7 +500,7 @@
       }
 
       function getSelectedTypes() {
-        const boxes = Array.from(document.querySelectorAll('.type'))
+        const boxes = [...document.querySelectorAll('.type')]
         const selected = boxes.filter(b => b.checked).map(b => b.value)
         const types = selected.length ? selected : ['COLOR', 'FLOAT', 'STRING', 'BOOLEAN']
         return types
