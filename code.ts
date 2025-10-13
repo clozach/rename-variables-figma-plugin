@@ -31,7 +31,7 @@ type PreviewItem = {
 
 figma.showUI(__html__, { width: 600, height: 640, themeColors: true })
 
-figma.ui.onmessage = async (msg) => {
+figma.ui.onmessage = async (msg): Promise<void> => {
   if (!figma.variables || !figma.variables.getLocalVariableCollectionsAsync) {
     figma.ui.postMessage({ type: 'ERROR', message: 'Variables API unavailable. Open in a Figma Design file.' })
     figma.notify('Variables API unavailable. Use a Design file.')
