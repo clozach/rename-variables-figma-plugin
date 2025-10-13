@@ -83,3 +83,13 @@ Point main to the compiled JS:
 ## Notes
 - Variable bindings reference IDs, so renaming names won’t break designs.
 - Names must be unique per collection; collisions are skipped with a reason.
+
+## Features
+
+✨ **Live Preview** — See changes before applying  
+🔍 **Regex Support** — Use regular expressions for complex patterns  
+⚠️ **Collision Detection** — Warns about duplicate names  
+🎨 **Filter by Type** — Select COLOR, FLOAT, STRING, or BOOLEAN variables  
+📁 **Filter by Collection** — Choose specific variable collections  
+⌨️ **Keyboard Shortcuts** — Fast workflow with ⌘↩, ⌥⌘R, ⌥⌘C, ⌥⌘W  
+↩️ **Undo Support** — Full Cmd/Ctrl+Z support for all changes

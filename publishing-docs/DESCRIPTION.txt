@@ -1,0 +1,66 @@
+Rename Variables is a powerful plugin for bulk renaming Figma variables using search and replace patterns.
+
+✨ KEY FEATURES
+
+• Live Preview — See changes before applying
+• Regex Support — Use regular expressions for complex patterns
+• Collision Detection — Warns about duplicate names
+• Filter by Type — Select COLOR, FLOAT, STRING, or BOOLEAN variables
+• Filter by Collection — Choose specific variable collections
+• Keyboard Shortcuts — Fast workflow with ⌘↩, ⌥⌘R, ⌥⌘C, ⌥⌘W
+• Undo Support — Full Cmd/Ctrl+Z support for all changes
+
+🎯 USE CASES
+
+• Rename color variables from "color-" to "colour-"
+• Add prefixes/suffixes to variable groups
+• Fix naming conventions across collections
+• Clean up imported variable names
+• Standardize variable naming patterns
+
+⚡ HOW TO USE
+
+1. Open a Figma Design file with variables
+2. Run Plugins → Rename Variables
+3. Enter search and replace patterns
+4. Toggle options: Regex, Case-sensitive, Whole word
+5. Expand Advanced to filter by type and collection
+6. Preview shows all changes with collision warnings
+7. Click Apply (or press ⌘↩) to rename
+
+🎨 BEAUTIFUL UI
+
+Modern, responsive interface with:
+• French Vanilla gradient theme (light mode)
+• Chocolaty earth tones (dark mode)
+• Smooth animations and transitions
+• Clear visual feedback
+
+⚠️ IMPORTANT
+
+• Variable names must be unique within each collection
+• Collisions are automatically skipped with reasons
+• Changes can be undone with Cmd/Ctrl+Z
+• Only works in Figma Design files (not FigJam)
+
+🔒 PRIVACY
+
+• No data collection
+• All processing happens locally
+• No external network requests
+• Open source code available
+
+📖 DOCUMENTATION
+
+Full documentation and source code available at:
+[Your GitHub URL or documentation link]
+
+💡 TIPS
+
+• Use Preview to verify changes before applying
+• Start with small test renames
+• Use Whole word to avoid partial matches
+• Check Advanced options for precise filtering
+• Keyboard shortcuts speed up workflow
+
+Made with ❤️ for the Figma community

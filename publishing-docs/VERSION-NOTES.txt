@@ -1,0 +1,17 @@
+Version 1.0.0 - Initial Release
+
+Initial release of Rename Variables plugin.
+
+Features:
+• Search and replace with live preview
+• Regex, case-sensitive, and whole word matching
+• Filter by variable type (COLOR, FLOAT, STRING, BOOLEAN)
+• Filter by variable collection
+• Collision detection and warnings
+• Keyboard shortcuts for fast workflow
+• Beautiful, theme-aware UI
+• Full undo support
+
+Known limitations:
+• Only works in Figma Design files (not FigJam)
+• Requires local variable collections
