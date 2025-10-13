@@ -18,6 +18,10 @@
       .skip { color: #c60; font-weight: 600; }
       .small { font-size: 12px; color: #555; }
       .collections, .types { margin-top: 8px; max-height: 160px; overflow: auto; border: 1px solid #ddd; border-radius: 6px; padding: 8px; }
+      .types { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; max-height: none; }
+      .types label { margin: 0; display: inline-flex; align-items: center; }
+      .types-header { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+      .select-toggle { font-size: 12px; color: #0066cc; cursor: pointer; text-decoration: underline; }
       .badge { background: #f3f3f3; border: 1px solid #ddd; border-radius: 4px; padding: 2px 6px; margin-left: 6px; font-size: 11px; }
       .section-title { margin-top: 10px; font-weight: 600; }
     </style>
@@ -37,13 +41,16 @@
       <label><input id="whole" type="checkbox" /> Whole word</label>
     </div>
 
-    <div class="section-title">Variable types</div>
+    <div class="types-header">
+      <div class="section-title" style="margin: 0;">Variable types</div>
+      <span id="selectToggle" class="select-toggle">Select None</span>
+    </div>
     <div class="types" id="types">
       <label><input type="checkbox" class="type" value="COLOR" checked /> COLOR</label>
       <label><input type="checkbox" class="type" value="FLOAT" checked /> FLOAT</label>
       <label><input type="checkbox" class="type" value="STRING" checked /> STRING</label>
       <label><input type="checkbox" class="type" value="BOOLEAN" checked /> BOOLEAN</label>
-      <div class="small">Uncheck to exclude specific types. All checked means “all types”.</div>
+      <div class="small" style="width: 100%; margin-top: 4px;">Uncheck to exclude specific types. All checked means "all types".</div>
     </div>
 
     <div class="section-title">Collections</div>
@@ -59,6 +66,16 @@
     <script>
       const collectionsDiv = document.getElementById('collections')
       const selectedCollections = new Set()
+      const selectToggle = document.getElementById('selectToggle')
+      let allTypesSelected = true
+
+      // Select All/None toggle for variable types
+      selectToggle.addEventListener('click', () => {
+        const typeCheckboxes = document.querySelectorAll('.type')
+        allTypesSelected = !allTypesSelected
+        typeCheckboxes.forEach(cb => cb.checked = allTypesSelected)
+        selectToggle.textContent = allTypesSelected ? 'Select None' : 'Select All'
+      })
 
       // Request collections from main
       console.log('[UI] Requesting collections…')
