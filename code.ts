@@ -87,7 +87,7 @@ figma.ui.onmessage = async (msg): Promise<void> => {
           collision: false
         } as PreviewItem
       })
-      .filter(Boolean) as PreviewItem[]
+      .filter((item): item is PreviewItem => item !== null)
 
     const withCollisions = detectCollisions(withinSameCollectionNames(scoped), preview)
 
