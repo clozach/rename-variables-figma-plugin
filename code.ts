@@ -29,7 +29,7 @@ type PreviewItem = {
   reason?: string
 }
 
-figma.showUI(__html__, { width: 600, height: 640, themeColors: true })
+figma.showUI(__html__, { width: 600, height: 730, themeColors: true })
 
 figma.ui.onmessage = async (msg): Promise<void> => {
   if (!figma.variables || !figma.variables.getLocalVariableCollectionsAsync) {
