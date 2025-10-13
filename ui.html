@@ -1,0 +1,184 @@
+<!-- Replace file: ui.html -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body { font-family: Inter, sans-serif; margin: 12px; }
+      h3 { margin: 0 0 8px 0; }
+      label { display: block; margin: 8px 0 4px; font-weight: 600; }
+      input[type="text"] { width: 100%; padding: 8px; box-sizing: border-box; }
+      .row { display: flex; gap: 8px; align-items: center; margin-top: 8px; flex-wrap: wrap; }
+      button { padding: 8px 12px; }
+      .list { margin-top: 12px; max-height: 280px; overflow: auto; border: 1px solid #ddd; border-radius: 6px; }
+      .item { padding: 8px; border-bottom: 1px solid #eee; }
+      .item:last-child { border-bottom: none; }
+      .collision { color: #b00020; font-weight: 600; }
+      .success { color: #0b7; font-weight: 600; }
+      .skip { color: #c60; font-weight: 600; }
+      .small { font-size: 12px; color: #555; }
+      .collections, .types { margin-top: 8px; max-height: 160px; overflow: auto; border: 1px solid #ddd; border-radius: 6px; padding: 8px; }
+      .badge { background: #f3f3f3; border: 1px solid #ddd; border-radius: 4px; padding: 2px 6px; margin-left: 6px; font-size: 11px; }
+      .section-title { margin-top: 10px; font-weight: 600; }
+    </style>
+  </head>
+  <body>
+    <h3>Rename Variables: Search &amp; Replace</h3>
+
+    <label>Search</label>
+    <input id="search" type="text" placeholder="e.g. foo-" />
+
+    <label>Replace</label>
+    <input id="replace" type="text" placeholder="e.g. bar-" />
+
+    <div class="row">
+      <label><input id="regex" type="checkbox" /> Regex</label>
+      <label><input id="case" type="checkbox" /> Case-sensitive</label>
+      <label><input id="whole" type="checkbox" /> Whole word</label>
+    </div>
+
+    <div class="section-title">Variable types</div>
+    <div class="types" id="types">
+      <label><input type="checkbox" class="type" value="COLOR" checked /> COLOR</label>
+      <label><input type="checkbox" class="type" value="FLOAT" checked /> FLOAT</label>
+      <label><input type="checkbox" class="type" value="STRING" checked /> STRING</label>
+      <label><input type="checkbox" class="type" value="BOOLEAN" checked /> BOOLEAN</label>
+      <div class="small">Uncheck to exclude specific types. All checked means “all types”.</div>
+    </div>
+
+    <div class="section-title">Collections</div>
+    <div id="collections" class="collections"></div>
+
+    <div class="row">
+      <button id="preview">Preview</button>
+      <button id="apply">Apply</button>
+    </div>
+
+    <div class="list" id="list"></div>
+
+    <script>
+      const collectionsDiv = document.getElementById('collections')
+      const selectedCollections = new Set()
+
+      // Request collections from main
+      console.log('[UI] Requesting collections…')
+      parent.postMessage({ pluginMessage: { type: 'GET_COLLECTIONS' } }, '*')
+
+      onmessage = (event) => {
+        const msg = event.data.pluginMessage
+        if (!msg) return
+        console.log('[UI] Message received:', msg.type)
+
+        if (msg.type === 'COLLECTIONS') {
+          collectionsDiv.innerHTML = ''
+          selectedCollections.clear()
+          msg.collections.forEach(c => {
+            const id = `col-${c.id}`
+            const wrapper = document.createElement('div')
+            wrapper.innerHTML = `
+              <label><input type="checkbox" id="${id}" data-id="${c.id}" checked /> ${c.name} <span class="badge">${c.id.slice(-6)}</span></label>
+            `
+            collectionsDiv.appendChild(wrapper)
+            const cb = wrapper.querySelector('input')
+            cb.addEventListener('change', (e) => {
+              const cid = e.target.getAttribute('data-id')
+              if (e.target.checked) selectedCollections.add(cid)
+              else selectedCollections.delete(cid)
+              console.log('[UI] Collections selected:', Array.from(selectedCollections))
+            })
+            // default select all
+            selectedCollections.add(c.id)
+          })
+          console.log('[UI] Collections loaded:', msg.collections.length)
+        }
+
+        if (msg.type === 'PREVIEW') {
+          renderPreview(msg.items)
+        }
+
+        if (msg.type === 'RESULTS') {
+          renderResults(msg.results)
+        }
+
+        if (msg.type === 'ERROR') {
+          const list = document.getElementById('list')
+          list.innerHTML = `<div class="item small" style="color:#b00020;">${msg.message}</div>`
+          console.warn('[UI] ERROR:', msg.message)
+        }
+      }
+
+      function getSelectedTypes() {
+        const boxes = Array.from(document.querySelectorAll('.type'))
+        const selected = boxes.filter(b => b.checked).map(b => b.value)
+        const types = selected.length ? selected : ['COLOR', 'FLOAT', 'STRING', 'BOOLEAN']
+        console.log('[UI] Types selected:', types)
+        return types
+      }
+
+      function getParams(dryRun) {
+        const searchVal = document.getElementById('search').value ?? ''
+        const replaceVal = document.getElementById('replace').value ?? ''
+        const payload = {
+          type: 'RUN',
+          params: {
+            search: String(searchVal),
+            replace: String(replaceVal),
+            regex: !!document.getElementById('regex').checked,
+            caseSensitive: !!document.getElementById('case').checked,
+            wholeWord: !!document.getElementById('whole').checked,
+            collections: Array.from(selectedCollections),
+            variableTypes: getSelectedTypes(),
+            dryRun: !!dryRun
+          }
+        }
+        console.log('[UI] Payload:', payload)
+        return payload
+      }
+
+      document.getElementById('preview').addEventListener('click', () => {
+        const payload = getParams(true)
+        parent.postMessage({ pluginMessage: payload }, '*')
+      })
+
+      document.getElementById('apply').addEventListener('click', () => {
+        const count = document.querySelectorAll('.item').length
+        if (count > 50 && !confirm(`Apply ${count} renames? This will change variable names.`)) return
+        const payload = getParams(false)
+        parent.postMessage({ pluginMessage: payload }, '*')
+      })
+
+      function renderPreview(items) {
+        const list = document.getElementById('list')
+        console.log('[UI] Render preview items:', items?.length || 0)
+        if (!items || items.length === 0) {
+          list.innerHTML = '<div class="item small">No matches.</div>'
+          return
+        }
+        list.innerHTML = items.map(p => `
+          <div class="item">
+            <div><strong>${p.oldName}</strong> → <strong>${p.newName}</strong></div>
+            ${p.collision ? `<div class="collision small">⚠ ${p.reason}</div>` : `<div class="small">No collision</div>`}
+          </div>
+        `).join('')
+      }
+
+      function renderResults(results) {
+        const list = document.getElementById('list')
+        console.log('[UI] Render results:', results?.length || 0)
+        if (!results || results.length === 0) {
+          list.innerHTML = '<div class="item small">No changes.</div>'
+          return
+        }
+        list.innerHTML = results.map(r => {
+          const statusClass = r.status === 'renamed' ? 'success' : r.status === 'skipped' ? 'skip' : 'collision'
+          return `
+            <div class="item">
+              <div><strong>${r.oldName}</strong> → <strong>${r.newName}</strong> <span class="${statusClass}">${r.status.toUpperCase()}</span></div>
+              ${r.reason ? `<div class="small">${r.reason}</div>` : ''}
+            </div>
+          `
+        }).join('')
+      }
+    </script>
+  </body>
+</html>
