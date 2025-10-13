@@ -39,6 +39,11 @@ figma.ui.onmessage = async (msg) => {
     return
   }
 
+  if (msg.type === 'CLOSE') {
+    figma.closePlugin()
+    return
+  }
+
   if (msg.type === 'GET_COLLECTIONS') {
     const cols = api.getLocalVariableCollections().map(c => ({ id: c.id, name: c.name }))
     figma.ui.postMessage({ type: 'COLLECTIONS', collections: cols })
