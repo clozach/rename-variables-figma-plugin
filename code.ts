@@ -174,8 +174,12 @@ function buildMatcher(params: { search: string; replace: string; regex: boolean;
     return (name: string) => {
       const hay = caseSensitive ? name : name.toLowerCase()
       if (wholeWord) {
-        if (hay === src) return { match: true, newName: rep }
-        return { match: false }
+        // Use word boundary regex for whole word matching
+        const pattern = `\\b${escapeRegExp(search)}\\b`
+        const re = new RegExp(pattern, caseSensitive ? 'g' : 'gi')
+        if (!re.test(name)) return { match: false }
+        const newName = name.replace(re, replace)
+        return { match: true, newName }
       } else {
         if (!hay.includes(src)) return { match: false }
         const re = new RegExp(escapeRegExp(search), caseSensitive ? 'g' : 'gi')
