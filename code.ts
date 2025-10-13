@@ -29,7 +29,7 @@ type PreviewItem = {
   reason?: string
 }
 
-figma.showUI(__html__, { width: 520, height: 640, themeColors: true })
+figma.showUI(__html__, { width: 600, height: 640, themeColors: true })
 
 figma.ui.onmessage = async (msg) => {
   const api = figma.variables
