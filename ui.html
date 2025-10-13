@@ -29,6 +29,7 @@
       .expand-icon { font-size: 14px; display: inline-block; }
       .badge { background: #f3f3f3; border: 1px solid #ddd; border-radius: 4px; padding: 2px 6px; margin-left: 6px; font-size: 11px; }
       .section-title { margin-top: 10px; font-weight: 600; }
+      .shortcut { color: #999; font-size: 11px; margin-left: 6px; font-weight: 400; }
     </style>
   </head>
   <body>
@@ -41,14 +42,14 @@
     <input id="replace" type="text" placeholder="e.g. bar-" />
 
     <div class="row">
-      <label><input id="regex" type="checkbox" /> Regex</label>
-      <label><input id="case" type="checkbox" /> Case-sensitive</label>
-      <label><input id="whole" type="checkbox" /> Whole word</label>
+      <label><input id="regex" type="checkbox" /> Regex <span class="shortcut">⌥⌘R</span></label>
+      <label><input id="case" type="checkbox" /> Case-sensitive <span class="shortcut">⌥⌘C</span></label>
+      <label><input id="whole" type="checkbox" /> Whole word <span class="shortcut">⌥⌘W</span></label>
     </div>
 
     <div class="advanced-toggle" id="advancedToggle">
       <span class="expand-icon" id="expandIcon">▷</span>
-      <span>Advanced</span>
+      <span>Advanced <span class="shortcut">⌥⌘A</span></span>
     </div>
 
     <div class="advanced-content" id="advancedContent">
@@ -69,7 +70,7 @@
     </div>
 
     <div class="row">
-      <button id="apply">Apply</button>
+      <button id="apply">Apply <span class="shortcut">⌘↩</span></button>
     </div>
 
     <div class="list" id="list"></div>
