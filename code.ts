@@ -131,7 +131,7 @@ function getAllVariables(types: Array<VariableType> | undefined): VariableSummar
   for (const v of allVars) {
     const col = colById.get(v.variableCollectionId)
     if (!col) continue
-    const t = (v as any).resolvedType as VariableType | undefined
+    const t = (v as Variable & { resolvedType?: VariableType }).resolvedType
     result.push({
       id: v.id,
       name: v.name,
