@@ -69,7 +69,6 @@
     </div>
 
     <div class="row">
-      <button id="preview">Preview</button>
       <button id="apply">Apply</button>
     </div>
 
@@ -85,6 +84,15 @@
       let allTypesSelected = true
       let advancedExpanded = false
 
+      // Throttle utility: limits function calls to once per delay period
+      function throttle(fn, delay) {
+        let timeoutId = null
+        return function(...args) {
+          if (timeoutId) clearTimeout(timeoutId)
+          timeoutId = setTimeout(() => fn(...args), delay)
+        }
+      }
+
       // Advanced section toggle
       advancedToggle.addEventListener('click', () => {
         advancedExpanded = !advancedExpanded
@@ -98,6 +106,7 @@
         allTypesSelected = !allTypesSelected
         typeCheckboxes.forEach(cb => cb.checked = allTypesSelected)
         selectToggle.textContent = allTypesSelected ? 'Select None' : 'Select All'
+        triggerPreview()
       })
 
       // Request collections from main
@@ -125,6 +134,7 @@
               if (e.target.checked) selectedCollections.add(cid)
               else selectedCollections.delete(cid)
               console.log('[UI] Collections selected:', Array.from(selectedCollections))
+              triggerPreview()
             })
             // default select all
             selectedCollections.add(c.id)
@@ -175,9 +185,25 @@
         return payload
       }
 
-      document.getElementById('preview').addEventListener('click', () => {
+      // Live preview function
+      function triggerPreview() {
         const payload = getParams(true)
         parent.postMessage({ pluginMessage: payload }, '*')
+      }
+
+      // Throttled version for text inputs (300ms delay)
+      const throttledPreview = throttle(triggerPreview, 300)
+
+      // Attach live preview to all inputs
+      document.getElementById('search').addEventListener('input', throttledPreview)
+      document.getElementById('replace').addEventListener('input', throttledPreview)
+      document.getElementById('regex').addEventListener('change', triggerPreview)
+      document.getElementById('case').addEventListener('change', triggerPreview)
+      document.getElementById('whole').addEventListener('change', triggerPreview)
+
+      // Type checkboxes will trigger preview when changed
+      document.querySelectorAll('.type').forEach(cb => {
+        cb.addEventListener('change', triggerPreview)
       })
 
       document.getElementById('apply').addEventListener('click', () => {
