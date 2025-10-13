@@ -32,7 +32,7 @@ type PreviewItem = {
 figma.showUI(__html__, { width: 600, height: 640, themeColors: true })
 
 figma.ui.onmessage = async (msg) => {
-  if (!figma.variables || !figma.variables.getLocalVariableCollections) {
+  if (!figma.variables || !figma.variables.getLocalVariableCollectionsAsync) {
     figma.ui.postMessage({ type: 'ERROR', message: 'Variables API unavailable. Open in a Figma Design file.' })
     figma.notify('Variables API unavailable. Use a Design file.')
     return
@@ -44,7 +44,7 @@ figma.ui.onmessage = async (msg) => {
   }
 
   if (msg.type === 'GET_COLLECTIONS') {
-    const cols = figma.variables.getLocalVariableCollections().map(c => ({ id: c.id, name: c.name }))
+    const cols = (await figma.variables.getLocalVariableCollectionsAsync()).map(c => ({ id: c.id, name: c.name }))
     figma.ui.postMessage({ type: 'COLLECTIONS', collections: cols })
     return
   }
@@ -59,7 +59,7 @@ figma.ui.onmessage = async (msg) => {
       return
     }
 
-    const all = getAllVariables(params.variableTypes)
+    const all = await getAllVariables(params.variableTypes)
     const scoped = filterCollections(all, params.collections)
     if (scoped.length === 0) {
       figma.ui.postMessage({ type: 'PREVIEW', items: [] })
@@ -103,7 +103,7 @@ figma.ui.onmessage = async (msg) => {
         continue
       }
       try {
-        const variable = figma.variables.getVariableById(p.id)
+        const variable = await figma.variables.getVariableByIdAsync(p.id)
         if (!variable) {
           results.push({ id: p.id, oldName: p.oldName, newName: p.newName, status: 'error', reason: 'Variable not found' })
           continue
@@ -122,12 +122,12 @@ figma.ui.onmessage = async (msg) => {
 
 // Helpers
 
-function getAllVariables(types: Array<VariableType> | undefined): VariableSummary[] {
+async function getAllVariables(types: Array<VariableType> | undefined): Promise<VariableSummary[]> {
   const result: VariableSummary[] = []
-  const collections = figma.variables.getLocalVariableCollections()
+  const collections = await figma.variables.getLocalVariableCollectionsAsync()
   const colById = new Map(collections.map(c => [c.id, c]))
 
-  const allVars = figma.variables.getLocalVariables()
+  const allVars = await figma.variables.getLocalVariablesAsync()
   for (const v of allVars) {
     const col = colById.get(v.variableCollectionId)
     if (!col) continue
