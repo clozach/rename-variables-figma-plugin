@@ -3,6 +3,13 @@
     "target": "ES2017",
     "lib": ["ES2017"],
     "strict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
     "types": ["@figma/plugin-typings"],
     "skipLibCheck": true
   },
