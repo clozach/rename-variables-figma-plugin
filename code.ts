@@ -121,28 +121,22 @@ figma.ui.onmessage = async (msg) => {
 function getAllVariables(types: Array<VariableType> | undefined): VariableSummary[] {
   const result: VariableSummary[] = []
   const collections = figma.variables.getLocalVariableCollections()
+  const colById = new Map(collections.map(c => [c.id, c]))
 
-  const typeList: Array<VariableType> = (types && types.length > 0)
-    ? types
-    : ['COLOR', 'FLOAT', 'STRING', 'BOOLEAN']
-
-  for (const col of collections) {
-    // Use the 1-arg overload: pass the collection; do NOT pass type here (that 2-arg overload is not in your TS defs)
-    const vars = figma.variables.getLocalVariables(col)
-    for (const v of vars) {
-      // Infer type from v.resolvedType if available; fallback to STRING for display-only
-      const t = (v as any).resolvedType as VariableType | undefined
-      result.push({
-        id: v.id,
-        name: v.name,
-        collectionId: col.id,
-        collectionName: col.name,
-        type: t ?? 'STRING'
-      })
-    }
+  const allVars = figma.variables.getLocalVariables()
+  for (const v of allVars) {
+    const col = colById.get(v.variableCollectionId)
+    if (!col) continue
+    const t = (v as any).resolvedType as VariableType | undefined
+    result.push({
+      id: v.id,
+      name: v.name,
+      collectionId: col.id,
+      collectionName: col.name,
+      type: t ?? 'STRING'
+    })
   }
 
-  // If a type filter was provided, apply it in-memory
   if (types && types.length > 0) {
     const allowed = new Set(types)
     return result.filter(v => allowed.has(v.type))
