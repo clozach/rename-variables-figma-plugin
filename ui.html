@@ -4,76 +4,357 @@
   <head>
     <meta charset="utf-8" />
     <style>
-      body { font-family: Inter, sans-serif; margin: 12px; }
-      h3 { margin: 0 0 8px 0; }
-      label { display: block; margin: 8px 0 4px; font-weight: 600; }
-      input[type="text"] { width: 100%; padding: 8px; box-sizing: border-box; }
-      .row { display: flex; gap: 8px; align-items: center; margin-top: 8px; flex-wrap: wrap; }
-      button { padding: 8px 12px; }
-      .list { margin-top: 12px; max-height: 280px; overflow: auto; border: 1px solid #ddd; border-radius: 6px; }
-      .item { padding: 8px; border-bottom: 1px solid #eee; }
-      .item:last-child { border-bottom: none; }
-      .collision { color: #b00020; font-weight: 600; }
-      .success { color: #0b7; font-weight: 600; }
-      .skip { color: #c60; font-weight: 600; }
-      .small { font-size: 12px; color: #555; }
-      .collections, .types { margin-top: 8px; max-height: 160px; overflow: auto; border: 1px solid #ddd; border-radius: 6px; padding: 8px; }
-      .types { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; max-height: none; }
-      .types label { margin: 0; display: inline-flex; align-items: center; }
-      .types-header { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
-      .select-toggle { font-size: 12px; color: #0066cc; cursor: pointer; text-decoration: underline; }
-      .advanced-toggle { display: flex; align-items: center; gap: 6px; cursor: pointer; margin-top: 12px; font-weight: 600; color: #333; user-select: none; }
-      .advanced-toggle:hover { color: #0066cc; }
-      .advanced-content { overflow: hidden; transition: max-height 0.3s ease-out; max-height: 0; }
-      .advanced-content.expanded { max-height: 600px; }
-      .expand-icon { font-size: 14px; display: inline-block; }
-      .badge { background: #f3f3f3; border: 1px solid #ddd; border-radius: 4px; padding: 2px 6px; margin-left: 6px; font-size: 11px; }
-      .section-title { margin-top: 10px; font-weight: 600; }
-      .shortcut { color: #999; font-size: 11px; margin-left: 6px; font-weight: 400; }
+      * { box-sizing: border-box; }
+      
+      body { 
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+      }
+      
+      .container {
+        background: white;
+        border-radius: 16px;
+        padding: 24px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      
+      h3 { 
+        margin: 0 0 24px 0;
+        font-size: 24px;
+        font-weight: 700;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: -0.5px;
+      }
+      
+      label { 
+        display: block;
+        margin: 0 0 8px 0;
+        font-weight: 600;
+        font-size: 13px;
+        color: #374151;
+        letter-spacing: 0.2px;
+      }
+      
+      input[type="text"] { 
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e5e7eb;
+        border-radius: 10px;
+        font-size: 14px;
+        transition: all 0.2s ease;
+        background: #f9fafb;
+        margin-bottom: 16px;
+      }
+      
+      input[type="text"]:focus {
+        outline: none;
+        border-color: #667eea;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+      
+      input[type="text"]::placeholder {
+        color: #9ca3af;
+      }
+      
+      .row { 
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        margin: 20px 0;
+        flex-wrap: wrap;
+      }
+      
+      .row label {
+        margin: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-weight: 500;
+        font-size: 13px;
+        color: #4b5563;
+        cursor: pointer;
+        user-select: none;
+      }
+      
+      input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        accent-color: #667eea;
+      }
+      
+      button { 
+        padding: 12px 24px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+      }
+      
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+      }
+      
+      button:active {
+        transform: translateY(0);
+      }
+      
+      .list { 
+        margin-top: 20px;
+        max-height: 280px;
+        overflow: auto;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        background: #f9fafb;
+      }
+      
+      .item { 
+        padding: 14px 16px;
+        border-bottom: 1px solid #e5e7eb;
+        background: white;
+        transition: background 0.15s ease;
+      }
+      
+      .item:first-child {
+        border-radius: 10px 10px 0 0;
+      }
+      
+      .item:last-child { 
+        border-bottom: none;
+        border-radius: 0 0 10px 10px;
+      }
+      
+      .item:only-child {
+        border-radius: 10px;
+      }
+      
+      .item:hover {
+        background: #f9fafb;
+      }
+      
+      .collision { 
+        color: #dc2626;
+        font-weight: 600;
+      }
+      
+      .success { 
+        color: #10b981;
+        font-weight: 600;
+      }
+      
+      .skip { 
+        color: #f59e0b;
+        font-weight: 600;
+      }
+      
+      .small { 
+        font-size: 12px;
+        color: #6b7280;
+        margin-top: 4px;
+      }
+      
+      .collections, .types { 
+        margin-top: 12px;
+        max-height: 160px;
+        overflow: auto;
+        border: 2px solid #e5e7eb;
+        border-radius: 10px;
+        padding: 12px;
+        background: #f9fafb;
+      }
+      
+      .types { 
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: center;
+        max-height: none;
+      }
+      
+      .types label { 
+        margin: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-weight: 500;
+        font-size: 13px;
+        color: #4b5563;
+        cursor: pointer;
+      }
+      
+      .types-header { 
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 16px;
+      }
+      
+      .select-toggle { 
+        font-size: 12px;
+        color: #667eea;
+        cursor: pointer;
+        font-weight: 600;
+        padding: 4px 8px;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+      }
+      
+      .select-toggle:hover {
+        background: rgba(102, 126, 234, 0.1);
+      }
+      
+      .advanced-toggle { 
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        margin-top: 20px;
+        font-weight: 600;
+        color: #374151;
+        user-select: none;
+        padding: 10px 12px;
+        border-radius: 10px;
+        transition: all 0.2s ease;
+        background: #f9fafb;
+        border: 2px solid #e5e7eb;
+      }
+      
+      .advanced-toggle:hover { 
+        background: #f3f4f6;
+        border-color: #667eea;
+        color: #667eea;
+      }
+      
+      .advanced-content { 
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+        max-height: 0;
+      }
+      
+      .advanced-content.expanded { 
+        max-height: 600px;
+      }
+      
+      .expand-icon { 
+        font-size: 14px;
+        display: inline-block;
+        transition: transform 0.3s ease;
+      }
+      
+      .advanced-toggle:hover .expand-icon {
+        transform: scale(1.2);
+      }
+      
+      .badge { 
+        background: linear-gradient(135deg, #667eea15, #764ba215);
+        border: 1px solid #667eea30;
+        border-radius: 6px;
+        padding: 3px 8px;
+        margin-left: 8px;
+        font-size: 11px;
+        color: #667eea;
+        font-weight: 600;
+      }
+      
+      .section-title { 
+        margin-top: 16px;
+        font-weight: 700;
+        font-size: 13px;
+        color: #374151;
+        letter-spacing: 0.3px;
+      }
+      
+      .shortcut { 
+        color: #9ca3af;
+        font-size: 11px;
+        margin-left: 6px;
+        font-weight: 500;
+        background: #f3f4f6;
+        padding: 2px 6px;
+        border-radius: 4px;
+      }
+      
+      /* Custom scrollbar */
+      .list::-webkit-scrollbar,
+      .collections::-webkit-scrollbar {
+        width: 8px;
+      }
+      
+      .list::-webkit-scrollbar-track,
+      .collections::-webkit-scrollbar-track {
+        background: #f3f4f6;
+        border-radius: 10px;
+      }
+      
+      .list::-webkit-scrollbar-thumb,
+      .collections::-webkit-scrollbar-thumb {
+        background: #d1d5db;
+        border-radius: 10px;
+      }
+      
+      .list::-webkit-scrollbar-thumb:hover,
+      .collections::-webkit-scrollbar-thumb:hover {
+        background: #9ca3af;
+      }
     </style>
   </head>
   <body>
-    <h3>Rename Variables: Search &amp; Replace</h3>
+    <div class="container">
+      <h3>Rename Variables: Search &amp; Replace</h3>
 
-    <label>Search</label>
-    <input id="search" type="text" placeholder="e.g. foo-" />
+      <label>Search</label>
+      <input id="search" type="text" placeholder="e.g. foo-" />
 
-    <label>Replace</label>
-    <input id="replace" type="text" placeholder="e.g. bar-" />
+      <label>Replace</label>
+      <input id="replace" type="text" placeholder="e.g. bar-" />
 
-    <div class="row">
-      <label><input id="regex" type="checkbox" /> Regex <span class="shortcut">⌥⌘R</span></label>
-      <label><input id="case" type="checkbox" /> Case-sensitive <span class="shortcut">⌥⌘C</span></label>
-      <label><input id="whole" type="checkbox" /> Whole word <span class="shortcut">⌥⌘W</span></label>
-    </div>
-
-    <div class="advanced-toggle" id="advancedToggle">
-      <span class="expand-icon" id="expandIcon">▷</span>
-      <span>Advanced <span class="shortcut">⌥⌘A</span></span>
-    </div>
-
-    <div class="advanced-content" id="advancedContent">
-      <div class="types-header">
-        <div class="section-title" style="margin: 0;">Variable types</div>
-        <span id="selectToggle" class="select-toggle">Select None</span>
-      </div>
-      <div class="types" id="types">
-        <label><input type="checkbox" class="type" value="COLOR" checked /> COLOR</label>
-        <label><input type="checkbox" class="type" value="FLOAT" checked /> FLOAT</label>
-        <label><input type="checkbox" class="type" value="STRING" checked /> STRING</label>
-        <label><input type="checkbox" class="type" value="BOOLEAN" checked /> BOOLEAN</label>
-        <div class="small" style="width: 100%; margin-top: 4px;">Uncheck to exclude specific types. All checked means "all types".</div>
+      <div class="row">
+        <label><input id="regex" type="checkbox" /> Regex <span class="shortcut">⌥⌘R</span></label>
+        <label><input id="case" type="checkbox" /> Case-sensitive <span class="shortcut">⌥⌘C</span></label>
+        <label><input id="whole" type="checkbox" /> Whole word <span class="shortcut">⌥⌘W</span></label>
       </div>
 
-      <div class="section-title">Collections</div>
-      <div id="collections" class="collections"></div>
-    </div>
+      <div class="advanced-toggle" id="advancedToggle">
+        <span class="expand-icon" id="expandIcon">▷</span>
+        <span>Advanced <span class="shortcut">⌥⌘A</span></span>
+      </div>
 
-    <div class="row">
-      <button id="apply">Apply <span class="shortcut">⌘↩</span></button>
-    </div>
+      <div class="advanced-content" id="advancedContent">
+        <div class="types-header">
+          <div class="section-title" style="margin: 0;">Variable types</div>
+          <span id="selectToggle" class="select-toggle">Select None</span>
+        </div>
+        <div class="types" id="types">
+          <label><input type="checkbox" class="type" value="COLOR" checked /> COLOR</label>
+          <label><input type="checkbox" class="type" value="FLOAT" checked /> FLOAT</label>
+          <label><input type="checkbox" class="type" value="STRING" checked /> STRING</label>
+          <label><input type="checkbox" class="type" value="BOOLEAN" checked /> BOOLEAN</label>
+          <div class="small" style="width: 100%; margin-top: 4px;">Uncheck to exclude specific types. All checked means "all types".</div>
+        </div>
 
-    <div class="list" id="list"></div>
+        <div class="section-title">Collections</div>
+        <div id="collections" class="collections"></div>
+      </div>
+
+      <div class="row">
+        <button id="apply">Apply <span class="shortcut">⌘↩</span></button>
+      </div>
+
+      <div class="list" id="list"></div>
+    </div>
 
     <script>
       const collectionsDiv = document.getElementById('collections')
@@ -111,13 +392,11 @@
       })
 
       // Request collections from main
-      console.log('[UI] Requesting collections…')
       parent.postMessage({ pluginMessage: { type: 'GET_COLLECTIONS' } }, '*')
 
       onmessage = (event) => {
         const msg = event.data.pluginMessage
         if (!msg) return
-        console.log('[UI] Message received:', msg.type)
 
         if (msg.type === 'COLLECTIONS') {
           collectionsDiv.innerHTML = ''
@@ -134,13 +413,11 @@
               const cid = e.target.getAttribute('data-id')
               if (e.target.checked) selectedCollections.add(cid)
               else selectedCollections.delete(cid)
-              console.log('[UI] Collections selected:', Array.from(selectedCollections))
               triggerPreview()
             })
             // default select all
             selectedCollections.add(c.id)
           })
-          console.log('[UI] Collections loaded:', msg.collections.length)
         }
 
         if (msg.type === 'PREVIEW') {
@@ -162,7 +439,6 @@
         const boxes = Array.from(document.querySelectorAll('.type'))
         const selected = boxes.filter(b => b.checked).map(b => b.value)
         const types = selected.length ? selected : ['COLOR', 'FLOAT', 'STRING', 'BOOLEAN']
-        console.log('[UI] Types selected:', types)
         return types
       }
 
@@ -182,7 +458,6 @@
             dryRun: !!dryRun
           }
         }
-        console.log('[UI] Payload:', payload)
         return payload
       }
 
@@ -218,20 +493,9 @@
 
       // Keyboard shortcuts
       document.addEventListener('keydown', (e) => {
-        console.log('[UI] Key pressed:', {
-          key: e.key,
-          code: e.code,
-          metaKey: e.metaKey,
-          ctrlKey: e.ctrlKey,
-          altKey: e.altKey,
-          shiftKey: e.shiftKey,
-          target: e.target.tagName
-        })
-
         // Cmd/Ctrl + Enter: Apply changes
         if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
           e.preventDefault()
-          console.log('[UI] Applying changes via Cmd+Enter')
           applyChanges()
           return
         }
@@ -240,7 +504,6 @@
         const isSearchOrReplace = e.target.id === 'search' || e.target.id === 'replace'
         if (e.key === 'Enter' && isSearchOrReplace) {
           e.preventDefault()
-          console.log('[UI] Applying changes via Enter in search/replace')
           applyChanges()
           return
         }
@@ -248,7 +511,6 @@
         // Escape: Close plugin
         if (e.key === 'Escape') {
           e.preventDefault()
-          console.log('[UI] Closing plugin via Escape')
           parent.postMessage({ pluginMessage: { type: 'CLOSE' } }, '*')
           return
         }
@@ -256,7 +518,6 @@
         // Option/Alt + Cmd/Ctrl + R: Toggle Regex
         if ((e.metaKey || e.ctrlKey) && e.altKey && (e.key === 'r' || e.key === 'R' || e.code === 'KeyR')) {
           e.preventDefault()
-          console.log('[UI] Toggling Regex')
           const regexCheckbox = document.getElementById('regex')
           regexCheckbox.checked = !regexCheckbox.checked
           triggerPreview()
@@ -266,7 +527,6 @@
         // Option/Alt + Cmd/Ctrl + C: Toggle Case-sensitive
         if ((e.metaKey || e.ctrlKey) && e.altKey && (e.key === 'c' || e.key === 'C' || e.code === 'KeyC')) {
           e.preventDefault()
-          console.log('[UI] Toggling Case-sensitive')
           const caseCheckbox = document.getElementById('case')
           caseCheckbox.checked = !caseCheckbox.checked
           triggerPreview()
@@ -276,7 +536,6 @@
         // Option/Alt + Cmd/Ctrl + W: Toggle Whole word
         if ((e.metaKey || e.ctrlKey) && e.altKey && (e.key === 'w' || e.key === 'W' || e.code === 'KeyW')) {
           e.preventDefault()
-          console.log('[UI] Toggling Whole word')
           const wholeCheckbox = document.getElementById('whole')
           wholeCheckbox.checked = !wholeCheckbox.checked
           triggerPreview()
@@ -286,7 +545,6 @@
         // Option/Alt + Cmd/Ctrl + A: Toggle Advanced section
         if ((e.metaKey || e.ctrlKey) && e.altKey && (e.key === 'a' || e.key === 'A' || e.code === 'KeyA')) {
           e.preventDefault()
-          console.log('[UI] Toggling Advanced')
           advancedToggle.click()
           return
         }
@@ -294,7 +552,6 @@
 
       function renderPreview(items) {
         const list = document.getElementById('list')
-        console.log('[UI] Render preview items:', items?.length || 0)
         if (!items || items.length === 0) {
           list.innerHTML = '<div class="item small">No matches.</div>'
           return
@@ -309,7 +566,6 @@
 
       function renderResults(results) {
         const list = document.getElementById('list')
-        console.log('[UI] Render results:', results?.length || 0)
         if (!results || results.length === 0) {
           list.innerHTML = '<div class="item small">No changes.</div>'
           return
