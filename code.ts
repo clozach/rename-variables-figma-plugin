@@ -51,8 +51,8 @@ figma.ui.onmessage = async (msg): Promise<void> => {
 
   if (msg.type === 'RUN') {
     const params: SearchParams = msg.params
-    const search = (params.search ?? '').trim()
-    const replace = (params.replace ?? '')
+    const search = params.search ?? ''
+    const replace = params.replace ?? ''
     if (!search) {
       figma.ui.postMessage({ type: 'PREVIEW', items: [] })
       figma.notify('Enter a Search value.')
