@@ -92,7 +92,32 @@ figma.ui.onmessage = async (msg): Promise<void> => {
     const withCollisions = detectCollisions(withinSameCollectionNames(scoped), preview)
 
     if (params.dryRun) {
-      figma.ui.postMessage({ type: 'PREVIEW', items: withCollisions })
+      // Calculate match counts per collection for the ratio display
+      const matchCountsByCollection = new Map<string, number>()
+      for (const item of withCollisions) {
+        const count = matchCountsByCollection.get(item.collectionId) || 0
+        matchCountsByCollection.set(item.collectionId, count + 1)
+      }
+      
+      // Get total counts per collection
+      const totalCountsByCollection = new Map<string, number>()
+      for (const v of scoped) {
+        const count = totalCountsByCollection.get(v.collectionId) || 0
+        totalCountsByCollection.set(v.collectionId, count + 1)
+      }
+      
+      // Build collection stats
+      const collectionStats = Array.from(totalCountsByCollection.entries()).map(([id, total]) => ({
+        id,
+        matches: matchCountsByCollection.get(id) || 0,
+        total
+      }))
+      
+      figma.ui.postMessage({ 
+        type: 'PREVIEW', 
+        items: withCollisions,
+        collectionStats 
+      })
       return
     }
 

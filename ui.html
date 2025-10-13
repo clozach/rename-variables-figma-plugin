@@ -324,6 +324,7 @@
         font-size: 11px;
         color: var(--accent-color);
         font-weight: 600;
+        display: none;
       }
       
       .section-title { 
@@ -464,7 +465,7 @@
             const id = `col-${c.id}`
             const wrapper = document.createElement('div')
             wrapper.innerHTML = `
-              <label><input type="checkbox" id="${id}" data-id="${c.id}" checked /> ${c.name} <span class="badge">${c.id.slice(-6)}</span></label>
+              <label><input type="checkbox" id="${id}" data-id="${c.id}" checked /> ${c.name} <span class="badge" data-collection-id="${c.id}"></span></label>
             `
             collectionsDiv.appendChild(wrapper)
             const cb = wrapper.querySelector('input')
@@ -481,6 +482,10 @@
 
         if (msg.type === 'PREVIEW') {
           renderPreview(msg.items)
+          // Update collection badges with match counts if available
+          if (msg.collectionStats) {
+            updateCollectionBadges(msg.collectionStats)
+          }
         }
 
         if (msg.type === 'RESULTS') {
@@ -522,6 +527,16 @@
 
       // Live preview function
       function triggerPreview() {
+        const searchVal = document.getElementById('search').value ?? ''
+        
+        // Hide badges if search is empty
+        if (!searchVal) {
+          document.querySelectorAll('.badge').forEach(badge => {
+            badge.textContent = ''
+            badge.style.display = 'none'
+          })
+        }
+        
         const payload = getParams(true)
         parent.postMessage({ pluginMessage: payload }, '*')
       }
@@ -608,6 +623,23 @@
           return
         }
       })
+
+      function updateCollectionBadges(collectionStats) {
+        // Hide all badges first
+        document.querySelectorAll('.badge').forEach(badge => {
+          badge.textContent = ''
+          badge.style.display = 'none'
+        })
+        
+        // Show badges with match counts
+        collectionStats.forEach(stat => {
+          const badge = document.querySelector(`.badge[data-collection-id="${stat.id}"]`)
+          if (badge) {
+            badge.textContent = `${stat.matches} out of ${stat.total} variables`
+            badge.style.display = 'inline-block'
+          }
+        })
+      }
 
       function renderPreview(items) {
         const list = document.getElementById('list')
