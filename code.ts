@@ -32,8 +32,7 @@ type PreviewItem = {
 figma.showUI(__html__, { width: 600, height: 640, themeColors: true })
 
 figma.ui.onmessage = async (msg) => {
-  const api = figma.variables
-  if (!api || !api.getLocalVariableCollections) {
+  if (!figma.variables || !figma.variables.getLocalVariableCollections) {
     figma.ui.postMessage({ type: 'ERROR', message: 'Variables API unavailable. Open in a Figma Design file.' })
     figma.notify('Variables API unavailable. Use a Design file.')
     return
@@ -45,7 +44,7 @@ figma.ui.onmessage = async (msg) => {
   }
 
   if (msg.type === 'GET_COLLECTIONS') {
-    const cols = api.getLocalVariableCollections().map(c => ({ id: c.id, name: c.name }))
+    const cols = figma.variables.getLocalVariableCollections().map(c => ({ id: c.id, name: c.name }))
     figma.ui.postMessage({ type: 'COLLECTIONS', collections: cols })
     return
   }
@@ -104,7 +103,7 @@ figma.ui.onmessage = async (msg) => {
         continue
       }
       try {
-        const variable = api.getVariableById(p.id)
+        const variable = figma.variables.getVariableById(p.id)
         if (!variable) {
           results.push({ id: p.id, oldName: p.oldName, newName: p.newName, status: 'error', reason: 'Variable not found' })
           continue
