@@ -22,6 +22,11 @@
       .types label { margin: 0; display: inline-flex; align-items: center; }
       .types-header { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
       .select-toggle { font-size: 12px; color: #0066cc; cursor: pointer; text-decoration: underline; }
+      .advanced-toggle { display: flex; align-items: center; gap: 6px; cursor: pointer; margin-top: 12px; font-weight: 600; color: #333; user-select: none; }
+      .advanced-toggle:hover { color: #0066cc; }
+      .advanced-content { overflow: hidden; transition: max-height 0.3s ease-out; max-height: 0; }
+      .advanced-content.expanded { max-height: 600px; }
+      .expand-icon { font-size: 14px; display: inline-block; }
       .badge { background: #f3f3f3; border: 1px solid #ddd; border-radius: 4px; padding: 2px 6px; margin-left: 6px; font-size: 11px; }
       .section-title { margin-top: 10px; font-weight: 600; }
     </style>
@@ -41,20 +46,27 @@
       <label><input id="whole" type="checkbox" /> Whole word</label>
     </div>
 
-    <div class="types-header">
-      <div class="section-title" style="margin: 0;">Variable types</div>
-      <span id="selectToggle" class="select-toggle">Select None</span>
-    </div>
-    <div class="types" id="types">
-      <label><input type="checkbox" class="type" value="COLOR" checked /> COLOR</label>
-      <label><input type="checkbox" class="type" value="FLOAT" checked /> FLOAT</label>
-      <label><input type="checkbox" class="type" value="STRING" checked /> STRING</label>
-      <label><input type="checkbox" class="type" value="BOOLEAN" checked /> BOOLEAN</label>
-      <div class="small" style="width: 100%; margin-top: 4px;">Uncheck to exclude specific types. All checked means "all types".</div>
+    <div class="advanced-toggle" id="advancedToggle">
+      <span class="expand-icon" id="expandIcon">▷</span>
+      <span>Advanced</span>
     </div>
 
-    <div class="section-title">Collections</div>
-    <div id="collections" class="collections"></div>
+    <div class="advanced-content" id="advancedContent">
+      <div class="types-header">
+        <div class="section-title" style="margin: 0;">Variable types</div>
+        <span id="selectToggle" class="select-toggle">Select None</span>
+      </div>
+      <div class="types" id="types">
+        <label><input type="checkbox" class="type" value="COLOR" checked /> COLOR</label>
+        <label><input type="checkbox" class="type" value="FLOAT" checked /> FLOAT</label>
+        <label><input type="checkbox" class="type" value="STRING" checked /> STRING</label>
+        <label><input type="checkbox" class="type" value="BOOLEAN" checked /> BOOLEAN</label>
+        <div class="small" style="width: 100%; margin-top: 4px;">Uncheck to exclude specific types. All checked means "all types".</div>
+      </div>
+
+      <div class="section-title">Collections</div>
+      <div id="collections" class="collections"></div>
+    </div>
 
     <div class="row">
       <button id="preview">Preview</button>
@@ -67,7 +79,18 @@
       const collectionsDiv = document.getElementById('collections')
       const selectedCollections = new Set()
       const selectToggle = document.getElementById('selectToggle')
+      const advancedToggle = document.getElementById('advancedToggle')
+      const advancedContent = document.getElementById('advancedContent')
+      const expandIcon = document.getElementById('expandIcon')
       let allTypesSelected = true
+      let advancedExpanded = false
+
+      // Advanced section toggle
+      advancedToggle.addEventListener('click', () => {
+        advancedExpanded = !advancedExpanded
+        advancedContent.classList.toggle('expanded', advancedExpanded)
+        expandIcon.textContent = advancedExpanded ? '▽' : '▷'
+      })
 
       // Select All/None toggle for variable types
       selectToggle.addEventListener('click', () => {
