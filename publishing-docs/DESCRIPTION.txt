@@ -53,7 +53,7 @@ Modern, responsive interface with:
 📖 DOCUMENTATION
 
 Full documentation and source code available at:
-[Your GitHub URL or documentation link]
+https://github.com/clozach/rename-variables-figma-plugin
 
 💡 TIPS
 
