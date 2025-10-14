@@ -99,18 +99,24 @@ figma.ui.onmessage = async (msg): Promise<void> => {
         matchCountsByCollection.set(item.collectionId, count + 1)
       }
       
-      // Get total counts per collection
+      // Get total counts per collection (only for collections in scoped)
       const totalCountsByCollection = new Map<string, number>()
       for (const v of scoped) {
         const count = totalCountsByCollection.get(v.collectionId) || 0
         totalCountsByCollection.set(v.collectionId, count + 1)
       }
       
-      // Build collection stats
-      const collectionStats = Array.from(totalCountsByCollection.entries()).map(([id, total]) => ({
+      // Build collection stats for all selected collections
+      // Include collections with 0 variables after filtering
+      const selectedCollectionIds = new Set(params.collections)
+      const allCollectionIds = selectedCollectionIds.size > 0 
+        ? selectedCollectionIds 
+        : new Set(totalCountsByCollection.keys())
+      
+      const collectionStats = Array.from(allCollectionIds).map(id => ({
         id,
         matches: matchCountsByCollection.get(id) || 0,
-        total
+        total: totalCountsByCollection.get(id) || 0
       }))
       
       figma.ui.postMessage({ 

@@ -29,56 +29,17 @@ npm run build
 npm run watch
 ```
 
-## Scripts
-```json
-"scripts": {
-  "build": "tsc",
-  "watch": "tsc --watch",
-  "postinstall": "tsc"
-}
-```
-
-## tsconfig
-```json
-{
-  "compilerOptions": {
-    "target": "ES2019",
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "lib": ["ES2019", "DOM"],
-    "strict": true,
-    "outDir": ".",
-    "skipLibCheck": true
-  },
-  "include": ["code.ts"]
-}
-```
-
-## Manifest
-Point main to the compiled JS:
-```json
-{
-  "name": "Rename Variables",
-  "id": "1559359518702965550",
-  "api": "1.0.0",
-  "main": "code.js",
-  "ui": "ui.html",
-  "editorType": ["figma"]
-}
-```
-
 ## Run
 - In Figma: Plugins → Development → Import plugin from manifest… (select manifest.json).
 - Open a Design file with variables.
 - Plugins → Development → Rename Variables.
-- Use Search/Replace; choose types and collections; Preview; then Apply.
-- Undo works via Cmd/Ctrl+Z.
+- Use Search/Replace; choose types and collections; then Apply.
 
 ## Debug
 - Plugins → Development → Show/Hide Console.
 - UI logs payloads; main logs enumeration and results.
 - If you see “Variables API unavailable,” you’re not in a Design file.
-- Permissions-policy warnings (camera/mic/clipboard/display-capture) are benign in Figma’s WebView.
+- Permissions-policy console warnings (camera/mic/clipboard/display-capture) are benign in Figma’s WebView.
 
 ## Notes
 - Variable bindings reference IDs, so renaming names won’t break designs.
