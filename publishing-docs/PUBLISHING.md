@@ -2,12 +2,12 @@
 
 ## Pre-Publishing Checklist
 
-- [ ] Plugin tested thoroughly in Figma Design files
+- [x] Plugin tested thoroughly in Figma Design files
 - [ ] All screenshots captured (see below)
 - [ ] Cover image created (1920×960px)
-- [ ] Description written
-- [ ] Version notes prepared
-- [ ] README updated with usage examples
+- [x] Description written
+- [x] Version notes prepared
+- [?] README updated with usage examples
 
 ## Screenshot Requirements
 

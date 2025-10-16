@@ -1,6 +1,6 @@
 {
   "name": "Rename Variables",
-  "id": "1559359518702965550",
+  "id": "1559858335499985941",
   "api": "1.0.0",
   "main": "code.js",
   "ui": "ui.html",
@@ -12,5 +12,7 @@
       "name": "Rename Variables",
       "command": "open"
     }
-  ]
+  ],
+  "networkAccess": { "allowedDomains": ["none"] },
+  "documentAccess": "dynamic-page"
 }

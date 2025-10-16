@@ -5,89 +5,88 @@ Quick reference for publishing Rename Variables to Figma Community.
 ## Pre-Publishing Tasks
 
 ### Code & Build
-- [ ] Run `npm run build` to compile TypeScript
-- [ ] Test plugin thoroughly in Figma Design file
-- [ ] Test in both light and dark mode
+- [x] Run `npm run build` to compile TypeScript
+- [x] Test plugin thoroughly in Figma Design file
+- [x] Test in both light and dark mode
 - [ ] Verify all features work:
-  - [ ] Search/replace
-  - [ ] Regex mode
-  - [ ] Case-sensitive mode
-  - [ ] Whole word mode
-  - [ ] Variable type filtering
-  - [ ] Collection filtering
-  - [ ] Collision detection
-  - [ ] Keyboard shortcuts
-  - [ ] Undo functionality
+  - [x] Search/replace
+  - [x] Regex mode
+  - [x] Case-sensitive mode
+  - [x] Whole word mode
+  - [x] Variable type filtering
+  - [x] Collection filtering
+  - [x] Collision detection
+  - [x] Keyboard shortcuts
+  - [x] Undo functionality (not really a feature…Figma already supports undoing variable name changes)
 
 ### Documentation
-- [ ] Review README.md
-- [ ] Review DESCRIPTION.txt
-- [ ] Review VERSION-NOTES.txt
-- [ ] Update any outdated information
+- [x] Review README.md
+- [x] Review DESCRIPTION.txt
 
 ### Assets
 
 #### Screenshots (Required)
-- [ ] `screenshots/01-main-interface.png` (1600×1200px+)
-- [ ] `screenshots/02-preview-results.png` (1600×1200px+)
-- [ ] `screenshots/03-advanced-options.png` (1600×1200px+)
-- [ ] `screenshots/04-collision-warning.png` (1600×1200px+)
-- [ ] `screenshots/05-success-results.png` (1600×1200px+)
-- [ ] `screenshots/06-keyboard-shortcuts.png` (Optional, 1600×1200px+)
+- [x] `screenshots/01-main-interface.png` (1600×1200px+)
+- [x] `screenshots/02-preview-results.png` (1600×1200px+)
+- [x] `screenshots/03-advanced-options.png` (1600×1200px+)
+- [x] `screenshots/04-collision-warning.png` (1600×1200px+)
+- [x] `screenshots/05-success-results.png` (1600×1200px+)
+- [x] `screenshots/06-keyboard-shortcuts.png` (Optional, 1600×1200px+)
 
 #### Cover Image (Required)
-- [ ] `cover-image.png` (exactly 1920×960px)
-- [ ] File size under 5MB
-- [ ] PNG format
-- [ ] Readable at thumbnail size
+- [x] `cover-image.png` (exactly 1920×960px)
+- [x] File size under 5MB
+- [x] PNG format
+- [x] Readable at thumbnail size
 
 ### Content Preparation
-- [ ] Copy description from DESCRIPTION.txt
-- [ ] Copy version notes from VERSION-NOTES.txt
-- [ ] Prepare tags list (see below)
-- [ ] Prepare support links (GitHub, docs, etc.)
+- [x] Copy description from DESCRIPTION.txt
+- [-] Copy version notes from VERSION-NOTES.txt [No version notes section in the publishing wizard, that I could see.]
+- [x] Prepare tags list (see below)
+- [x] Prepare support links (GitHub, docs, etc.)
 
 ## Publishing Steps
 
 ### In Figma Desktop App
-1. [ ] Open Figma Desktop App
-2. [ ] Go to Menu → Plugins → Development → Manage plugins
-3. [ ] Find "Rename Variables" in the list
-4. [ ] Click "•••" menu → "Publish new release"
+1. [x] Open Figma Desktop App
+2. [x] Go to Menu → Plugins → Development → Manage plugins
+3. [x] Find "Rename Variables" in the list
+4. [x] Click "•••" menu → "Publish new release"
 
 ### Fill Out Publishing Form
-5. [ ] Upload cover image (`cover-image.png`)
-6. [ ] Upload screenshots (all from `screenshots/` folder)
-7. [ ] Paste plugin description from DESCRIPTION.txt
-8. [ ] Add tags (see Tags section below)
-9. [ ] Paste version notes from VERSION-NOTES.txt
-10. [ ] Add support/documentation links:
-    - [ ] Documentation URL (GitHub README or docs site)
-    - [ ] Source code URL (GitHub repo)
-    - [ ] Support URL (GitHub Issues or email)
-11. [ ] Review everything carefully
-12. [ ] Click "Submit for review"
+5. [x] Upload cover image (`cover-image.png`)
+6. [x] Upload screenshots (all from `screenshots/` folder)
+7. [x] Paste plugin description from DESCRIPTION.txt
+8. [x] Add tags (see Tags section below)
+9. [x] Paste version notes from VERSION-NOTES.txt
+10. [x] Add support/documentation links:
+    - [-] Documentation URL (GitHub README or docs site)
+    - [•] Source code URL (GitHub repo)
+    - [•] Support URL (GitHub Issues or email)
+11. [x] Review everything carefully
+12. [x] Click "Submit for review"
 
 ## Tags to Use
 
 Select 5-10 tags from these options:
-- [ ] variables
-- [ ] rename
-- [ ] bulk-edit
-- [ ] search-replace
-- [ ] regex
-- [ ] design-tokens
-- [ ] productivity
-- [ ] workflow
-- [ ] utilities
-- [ ] developer-tools
+- [•] variables
+- [x] rename
+- [•] bulk edit
+- [x] search-replace
+- [•] regex
+- [•] regular expressions
+- [•] design tokens
+- [x] productivity
+- [x] workflow
+- [x] utilities
+- [x] developer tools
 
 ## After Submission
 
-- [ ] Wait for email notification (2-5 business days)
-- [ ] If approved:
+- [x] Wait for email notification (2-5 business days)
+- [x] If approved:
   - [ ] Share on social media
-  - [ ] Update README with Community link
+  - [x] Update README with Community link
   - [ ] Monitor user feedback
 - [ ] If changes requested:
   - [ ] Make requested changes
