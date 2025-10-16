@@ -66,20 +66,13 @@ Quick reference for publishing Rename Variables to Figma Community.
 11. [x] Review everything carefully
 12. [x] Click "Submit for review"
 
-## Tags to Use
+## Tags to Use (5 max)
 
-Select 5-10 tags from these options:
-- [•] variables
-- [x] rename
-- [•] bulk edit
-- [x] search-replace
-- [•] regex
-- [•] regular expressions
-- [•] design tokens
-- [x] productivity
-- [x] workflow
-- [x] utilities
-- [x] developer tools
+variables
+regexp
+design tokens system
+regular expression
+bulk editing
 
 ## After Submission
 
