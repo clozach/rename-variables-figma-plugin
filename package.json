@@ -1,7 +1,7 @@
 {
-  "name": "Rename-Variables",
-  "version": "1.0.0",
-  "description": "Your Figma Plugin",
+  "name": "rename-figma-variables",
+  "version": "1.0.1",
+  "description": "Bulk rename Figma variables with search & replace, regex support, and collision detection",
   "main": "code.js",
     "scripts": {
     "build": "tsc",

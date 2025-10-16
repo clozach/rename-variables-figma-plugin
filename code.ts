@@ -190,7 +190,7 @@ function buildMatcher(params: { search: string; replace: string; regex: boolean;
   const { search, replace, regex, caseSensitive, wholeWord } = params
 
   if (regex) {
-    const flags = caseSensitive ? '' : 'i'
+    const flags = caseSensitive ? 'g' : 'gi'
     const pattern = wholeWord ? `\\b(?:${search})\\b` : search
     let re: RegExp
     try {
@@ -226,7 +226,7 @@ function buildMatcher(params: { search: string; replace: string; regex: boolean;
 }
 
 function escapeRegExp(s: string): string {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  return s.replace(/[.*+?^$/{}()|[\]\\]/g, '\\$&')
 }
 
 function withinSameCollectionNames(vars: VariableSummary[]): Map<string, Set<string>> {
